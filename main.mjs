@@ -1,12 +1,12 @@
-const {app, BrowserWindow} = require('electron');
-const { App } = require('./config/config.json');
+import { app, BrowserWindow } from 'electron';
+import config from './config/config.json' with {type: 'json'};
 
 let mainWindow;
 
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: config.App.window.width,
+    height: config.App.window.height,
     webPreferences: {
       nodeIntegration: true
     }
@@ -14,8 +14,8 @@ function createWindow () {
 
   mainWindow.loadFile('index.html');
 
-  if ( !App.window.menu ) mainWindow.setMenu(null);
-  if ( App.developer.activated ) mainWindow.webContents.openDevTools();
+  if (!config.App.window.menu) mainWindow.setMenu(null);
+  if (config.App.developer.activated) mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
     mainWindow = null

@@ -1,14 +1,13 @@
 {
-    "App":{
-        "window":{
+    "App": {
+        "window": {
             "title": "The Red Planet by FrancisStudios",
             "width": 800,
             "height": 600,
             "menu": false
         },
-
         "developer": {
-            "activated": false
+            "activated": true
         }
     }
 }
