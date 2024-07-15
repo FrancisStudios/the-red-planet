@@ -1,12 +1,16 @@
-class FSCanvasEngine {
+export default class FSCanvasEngine {
     screen;
     cnv;
     isScreenSetup
 
     instance;
-    constructor() {
-        if (this.instance) return this.instance
-        else return new FSCanvasEngine();
+
+    constructor() { }
+    static getInstance() {
+        if (!this.instance)
+            this.instance = new FSCanvasEngine();
+
+        return this.instance;
     }
 
     /**
@@ -14,7 +18,7 @@ class FSCanvasEngine {
      * @param {number} height
      * @param {number} width
      */
-    setupScreen(id, height, width) {
+    setupScreen(id, width, height) {
         if (!this.isScreenSetup) {
             const canvas = document.getElementById(id);
             const context = canvas.getContext('2d');
