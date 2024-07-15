@@ -1,0 +1,14 @@
+{
+    "App":{
+        "window":{
+            "title": "FrancisStudios Empty Electron App",
+            "width": 800,
+            "height": 600,
+            "menu": false
+        },
+
+        "developer": {
+            "activated": false
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Retro DOS",
+  "version": "1.0.0",
+  "description": "A DOS-like computer emulator",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/FrancisStudios/RR_DOS",
+  "keywords": [
+    "RR_DOS",
+    "Retro Game",
+    "Emulator",
+    "DOS Game"
+  ],
+  "author": "Francis Stuidos",
+  "license": "",
+  "devDependencies": {
+    "electron": "^5.0.0"
+  }
+}
