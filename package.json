@@ -1,17 +1,15 @@
 {
-  "name": "Retro DOS",
+  "name": "TheRedPlanet",
   "version": "1.0.0",
-  "description": "A DOS-like computer emulator",
+  "description": "The Red Planet - Survival Game",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/FrancisStudios/RR_DOS",
+  "repository": "https://github.com/FrancisStudios/the-red-planet",
   "keywords": [
-    "RR_DOS",
-    "Retro Game",
-    "Emulator",
-    "DOS Game"
+    "Survival Game",
+    "Mars"
   ],
   "author": "Francis Stuidos",
   "license": "",
