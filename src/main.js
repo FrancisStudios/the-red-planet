@@ -1,3 +1,9 @@
+/**
+ * This class is the main facade of the whole engine.
+ * All application (and game) state is stored here and
+ * processed in other classes and methods.
+ */
+import FSCanvasEngineRenderer from "./renderer/renderer.js";
 export default class FSCanvasEngine {
     screen;
     cnv;
@@ -30,6 +36,22 @@ export default class FSCanvasEngine {
 
     get canvas() {
         return this.screen;
+    }
+
+    /**
+     * @param {CallableFunction} callback
+     * @param {boolean} debugMode
+     * If renderer finished then callback 
+     */
+    gameLoop(callback, debugMode) {
+        FSCanvasEngineRenderer
+            .renderNextFrame()
+            .then((resolve, reject) => {
+                if (resolve) {
+                    callback && callback();
+                    this.gameLoop(callback, debugMode);
+                }
+            });
     }
 
 }

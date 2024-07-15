@@ -6,3 +6,8 @@ const FSCE = FSCanvasEngine.getInstance();
 
 /* Basic canvas setup with app height and width */
 FSCE.setupScreen('screen', config.App.window.width, config.App.window.height);
+
+
+FSCE.gameLoop(() => {
+    console.log('frame')
+}, false);
