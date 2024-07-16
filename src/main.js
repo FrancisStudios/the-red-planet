@@ -81,22 +81,62 @@ export default class FSCanvasEngine {
                     animations: []
                 }
             }
+
+            /* With Game State We Init All HTML Stuff */
+            document.addEventListener('DOMContentLoaded', () => {
+
+                /* Remove Error From SCR */
+                document
+                    .querySelector('.close-error')
+                    .addEventListener('click',
+                        (e) => {
+                            document.getElementById(e.target.id.split('-')[0]).remove();
+                        }
+                    );
+            });
+
+            this.displayErrorMessage('Error', 'Test flédslfé sdélf dséalf')
         }
+
     }
 
-    displayErrorMessage() {
+    /**
+     * Display an Error Message
+     * @param {string} title - Usually Error
+     * @param {string} text  - Description of issue
+     */
+    displayErrorMessage(title, text) {
+        const id = this.generateId(64);
+
         document
             .getElementById('alerts-wrapper')
-            .insertAdjacentHTML('beforeend',`
-                <div class="alert-box error">
-                <h2 class="alert-title">Error</h2>
+            .insertAdjacentHTML('beforeend', `
+                <div class="alert-box error" id="${id}">
+                <h2 class="alert-title">
+                    ${title} 
+                    <input type="button" class="close-error" value="x" id="${id}-button"/>
+                </h2>
                 <p class="alert-text">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente at praesentium architecto
-                    commodi illum nobis, qui ducimus, eaque quis porro necessitatibus molestiae voluptatum sunt. Hic blanditiis
-                    repellat ipsa sit accusamus.
+                   ${text}
                 </p>
                 </div>
             `)
+    }
+
+    /**
+     * Generates a random id string
+     * @param {number} length 
+     * @returns {string}
+     */
+    generateId(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length; let counter = 0;
+        while (counter < length) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
     }
 
 }
