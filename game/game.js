@@ -10,9 +10,9 @@ FSCE.setupScreen('screen', config.App.window.width, config.App.window.height);
 /* Initialize game state */
 FSCE.initGameState();
 
-/* Load Tilemap Image (only after initGameState()) */
-
+/* Load Image (only after initGameState()) */
+FSCE.loadImage('test.png');
 
 FSCE.gameLoop(() => {
     console.log('frame')
-}, false);
+}, true);

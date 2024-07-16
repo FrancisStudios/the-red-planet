@@ -44,6 +44,11 @@ export default class FSCanvasEngine {
      * If renderer finished then callback 
      */
     gameLoop(callback, debugMode) {
+
+        debugMode
+            ? this.enableDebugMode()
+            : this.disableDebugMode();
+
         FSCanvasEngineRenderer
             .renderNextFrame()
             .then((resolve, reject) => {
@@ -81,23 +86,7 @@ export default class FSCanvasEngine {
                     animations: []
                 }
             }
-
-            /* With Game State We Init All HTML Stuff */
-            document.addEventListener('DOMContentLoaded', () => {
-
-                /* Remove Error From SCR */
-                document
-                    .querySelector('.close-error')
-                    .addEventListener('click',
-                        (e) => {
-                            document.getElementById(e.target.id.split('-')[0]).remove();
-                        }
-                    );
-            });
-
-            this.displayErrorMessage('Error', 'Test flédslfé sdélf dséalf')
-        }
-
+        } else this.displayErrorMessage('Error', 'Game state is already initialized!');
     }
 
     /**
@@ -120,7 +109,31 @@ export default class FSCanvasEngine {
                    ${text}
                 </p>
                 </div>
-            `)
+            `);
+
+        /* Remove Error From SCR */
+        document.addEventListener('DOMContentLoaded', () => {
+            document
+                .querySelectorAll('.close-error')
+                .forEach(el => {
+                    el.addEventListener('click',
+                        (e) => {
+                            if (document.getElementById(e.target.id.split('-')[0]) && e.target.id.split('-')[1] === 'button') {
+                                document.getElementById(e.target.id.split('-')[0]).remove();
+                            }
+                        }
+                    );
+                })
+
+        });
+    }
+
+    enableDebugMode() {
+        if (document.getElementById('alerts-wrapper').hidden) document.getElementById('alerts-wrapper').hidden = false;
+    }
+
+    disableDebugMode() {
+        if (!document.getElementById('alerts-wrapper').hidden) document.getElementById('alerts-wrapper').hidden = true;
     }
 
     /**
@@ -139,4 +152,14 @@ export default class FSCanvasEngine {
         return result;
     }
 
+    /**
+     * 
+     * @param {string} imgName - image name and extension in /game/assets/img folder (eg. dirt.jpg)
+     */
+    loadImage(imgName) {
+        if (this.gameState) {
+            //let image = new Image();
+            //img.src = `../game/assets/img/${imgName}`;
+        } else this.displayErrorMessage('Error', 'Game state is not yet initialized when trying to load image.');
+    }
 }
