@@ -83,5 +83,20 @@ export default class FSCanvasEngine {
             }
         }
     }
-    
+
+    displayErrorMessage() {
+        document
+            .getElementById('alerts-wrapper')
+            .insertAdjacentHTML('beforeend',`
+                <div class="alert-box error">
+                <h2 class="alert-title">Error</h2>
+                <p class="alert-text">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente at praesentium architecto
+                    commodi illum nobis, qui ducimus, eaque quis porro necessitatibus molestiae voluptatum sunt. Hic blanditiis
+                    repellat ipsa sit accusamus.
+                </p>
+                </div>
+            `)
+    }
+
 }
