@@ -10,3 +10,9 @@ Follow these steps to get FSCE running
 
 1) Download & Setup
 2) 
+
+
+
+## Error messages
+
+List of error messages can be read here: [error-messages.md](./error-messages.md)
