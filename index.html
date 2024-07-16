@@ -20,10 +20,75 @@
       width: 100%;
       height: 100%;
     }
+
+    #alerts-wrapper {
+      position: absolute;
+      overflow-x: hidden;
+      overflow-y: auto;
+      align-items: flex-end;
+      width: 40%;
+      font-family: sans-serif;
+      color: white;
+      gap: 20px;
+      height: 30%;
+      right: 0px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .alert-box {
+      padding: 0px;
+      margin: 0px;
+      display: block;
+    }
+
+    .alert-box p {
+      margin-top: 5px;
+    }
+
+    .alert-box h2 {
+      margin: 0px;
+      padding-bottom: 10px;
+    }
+
+    .error {
+      background-color: rgb(255, 97, 97);
+    }
+
+    .error h2 {
+      background-color: rgb(255, 64, 64);
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
   </style>
 </head>
 
 <body>
+  <div id="alerts-wrapper">
+
+    <div class="alert-box error">
+      <h2 class="alert-title">Error</h2>
+      <p class="alert-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente at praesentium architecto
+        commodi illum nobis, qui ducimus, eaque quis porro necessitatibus molestiae voluptatum sunt. Hic blanditiis
+        repellat ipsa sit accusamus.</p>
+    </div>
+
+  </div>
   <canvas id="screen"></canvas>
 </body>
 

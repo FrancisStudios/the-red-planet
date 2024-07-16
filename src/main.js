@@ -7,10 +7,10 @@ import FSCanvasEngineRenderer from "./renderer/renderer.js";
 export default class FSCanvasEngine {
     screen;
     cnv;
-    isScreenSetup
+    isScreenSetup;
+    gameState; /** @property { GameStateType } gameState */
 
     instance;
-
     constructor() { }
     static getInstance() {
         if (!this.instance)
@@ -20,9 +20,9 @@ export default class FSCanvasEngine {
     }
 
     /**
-     * @param {string} id
-     * @param {number} height
-     * @param {number} width
+     * @param {string} id - ID of your HTML Canvas
+     * @param {number} height - Height of your HTML Canvas in pixels
+     * @param {number} width - Width of your HTML Canvas in pixels
      */
     setupScreen(id, width, height) {
         if (!this.isScreenSetup) {
@@ -39,8 +39,8 @@ export default class FSCanvasEngine {
     }
 
     /**
-     * @param {CallableFunction} callback
-     * @param {boolean} debugMode
+     * @param {CallableFunction} callback - GameLoop Callback: write your game logic here
+     * @param {boolean} debugMode - Enable Debugging Mode
      * If renderer finished then callback 
      */
     gameLoop(callback, debugMode) {
@@ -54,4 +54,34 @@ export default class FSCanvasEngine {
             });
     }
 
+    /**
+     * 1) Step I. init GameState
+     * @param {number} gravity - Gravity Speed
+     * @param {number} maximumCounter - Counter's maximum value (default 8)
+     * @param {8 | 16 | 33 | 64 | 128 | 256} itemSize - Block size of your game (default 16)
+     */
+    initGameState(gravity = 0, itemSize = 16, maximumCounter = 8) {
+        if (!this.gameState) {
+            this.gameState = {
+                animationFrame: {
+                    counter: 0,
+                    max: maximumCounter
+                },
+                itemSize: itemSize,
+                variables: {},
+                layers: [],
+                gravity: {
+                    speed: gravity,
+                    enabled: (gravity > 0)
+                },
+                players: [],
+                assetStore: {
+                    blocks: [],
+                    sprites: [], /* TODO: figure out this */
+                    animations: []
+                }
+            }
+        }
+    }
+    
 }
