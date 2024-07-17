@@ -1,0 +1,5 @@
+{
+    "paths":{
+        "defaultImageLibrary": "../game/assets/img/"
+    }
+}

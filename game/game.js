@@ -11,7 +11,7 @@ FSCE.setupScreen('screen', config.App.window.width, config.App.window.height);
 FSCE.initGameState();
 
 /* Load Image (only after initGameState()) */
-FSCE.loadImage('test.png');
+//FSCE.loadImage('test.png'); /* TODO: not load image instead create a block or sprite */
 
 FSCE.gameLoop(() => {
     console.log('frame')

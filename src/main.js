@@ -8,6 +8,7 @@ export default class FSCanvasEngine {
     screen;
     cnv;
     isScreenSetup;
+    resolution = { width: 0, height: 0 }
     gameState; /** @property { GameStateType } gameState */
 
     instance;
@@ -29,9 +30,10 @@ export default class FSCanvasEngine {
             const canvas = document.getElementById(id);
             const context = canvas.getContext('2d');
             canvas.width = width; canvas.height = height;
+            this.resolution.width = width; this.resolution.height = height;
             this.screen = context; this.isScreenSetup = true;
             this.cnv = canvas;
-        }
+        } else this.displayErrorMessage('Error', 'The screen is already set up!');
     }
 
     get canvas() {
@@ -49,8 +51,13 @@ export default class FSCanvasEngine {
             ? this.enableDebugMode()
             : this.disableDebugMode();
 
+        const renderData = {
+            gameState: this.gameState,
+            debugMode: debugMode
+        };
+
         FSCanvasEngineRenderer
-            .renderNextFrame()
+            .renderNextFrame(renderData)
             .then((resolve, reject) => {
                 if (resolve) {
                     callback && callback();
@@ -68,6 +75,8 @@ export default class FSCanvasEngine {
     initGameState(gravity = 0, itemSize = 16, maximumCounter = 8) {
         if (!this.gameState) {
             this.gameState = {
+                canvas: this.screen,
+                resolution: this.resolution,
                 animationFrame: {
                     counter: 0,
                     max: maximumCounter
@@ -154,12 +163,16 @@ export default class FSCanvasEngine {
 
     /**
      * 
-     * @param {string} imgName - image name and extension in /game/assets/img folder (eg. dirt.jpg)
+     * @param {URL} texture - Path to texture 
+     * @param {string} name - Unique name for block type
+     * @param {*} position - coordinates { x: column, y: row }
+     * @param {*} physics - { isVisible: boolean, isGravityEnabled: boolean, isCollisionEnabled: boolean }
+     * @returns
      */
-    loadImage(imgName) {
+    blockBuilder(texture, name, position = { x: 0, y: 0 }, physics = { isVisible: true, isGravityEnabled: false, isCollisionEnabled: true }) {
         if (this.gameState) {
             //let image = new Image();
             //img.src = `../game/assets/img/${imgName}`;
-        } else this.displayErrorMessage('Error', 'Game state is not yet initialized when trying to load image.');
+        } else this.displayErrorMessage('Error', 'Game state is not yet initialized when trying to build a block.');
     }
 }

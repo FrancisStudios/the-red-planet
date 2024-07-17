@@ -1,4 +1,9 @@
 export type GameStateType = {
+    canvas: CanvasRenderingContext2D,
+    resolution: {
+        width: number
+        height: number
+    }
     animationFrame: {
         counter: number,
         max: number /* User defines how long the counter goes when setting up an animation */
@@ -30,11 +35,16 @@ type Layer = {
 }
 
 type Item = {
-    texture: string, /* Texture to display  TODO: figure out how I will do animations it's an Array<Texture> with animationFrame.max length!*/ 
+    texture: string,
     position: Coordinates,
     physics: {
+        isVisible: boolean,
         isGravityEnabled: boolean,
         isCollisionEnabled: boolean
+    },
+    animation: {
+        isAnimated: boolean, /* If disabled defaults to texture */
+        animationFrames?: Array<MediaImage>
     }
 }
 
