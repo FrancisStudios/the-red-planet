@@ -7,6 +7,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: config.App.window.width,
     height: config.App.window.height,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }

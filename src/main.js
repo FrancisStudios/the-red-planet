@@ -68,11 +68,10 @@ export default class FSCanvasEngine {
 
     /**
      * 1) Step I. init GameState
-     * @param {number} gravity - Gravity Speed
-     * @param {number} maximumCounter - Counter's maximum value (default 8)
-     * @param {8 | 16 | 33 | 64 | 128 | 256} itemSize - Block size of your game (default 16)
+     * @param {8 | 16 | 32 | 64 | 128 | 256} itemSize - Block size of your game (default 16)
+     * @param {number} maximumCounter - Counter's maximum value (default 8) it sets the maximum frames for all animations
      */
-    initGameState(gravity = 0, itemSize = 16, maximumCounter = 8) {
+    initGameState(itemSize = 16, maximumCounter = 8) {
         if (!this.gameState) {
             this.gameState = {
                 canvas: this.screen,
@@ -84,10 +83,6 @@ export default class FSCanvasEngine {
                 itemSize: itemSize,
                 variables: {},
                 layers: [],
-                gravity: {
-                    speed: gravity,
-                    enabled: (gravity > 0)
-                },
                 players: [],
                 assetStore: {
                     blocks: [],
@@ -162,17 +157,39 @@ export default class FSCanvasEngine {
     }
 
     /**
-     * 
-     * @param {URL} texture - Path to texture 
-     * @param {string} name - Unique name for block type
-     * @param {*} position - coordinates { x: column, y: row }
-     * @param {*} physics - { isVisible: boolean, isGravityEnabled: boolean, isCollisionEnabled: boolean }
-     * @returns
+     * Build a Block from a loaded image asset or multiple assets
+     * @param {string} id - Unique name for your block which you will refer to at map building
+     * @param {MediaImage} texture - Static image or first frame of your animation
+     * @param {{ x: 0, y: 0 }} position - Position in grid coordinates
+     * @param {Array<Behavior>} physics - (Optional) List of Behaviors - use behavior constructor to build one.
+     * @param {{ isAnimated: false, animationFrames: [] }} animation - (Optional) All animation frames as images
      */
-    blockBuilder(texture, name, position = { x: 0, y: 0 }, physics = { isVisible: true, isGravityEnabled: false, isCollisionEnabled: true }) {
-        if (this.gameState) {
-            //let image = new Image();
-            //img.src = `../game/assets/img/${imgName}`;
-        } else this.displayErrorMessage('Error', 'Game state is not yet initialized when trying to build a block.');
+    buildBlock(
+        id,
+        texture,
+        position = { x: 0, y: 0 },
+        physics = [{ type: 'visibility', enabled: true }],
+        animation = { isAnimated: false, animationFrames: [] }
+    ) {
+        let errors = [];
+        if (!this.gameState) { this.displayErrorMessage('Error', 'Game state has to be initialized before building a block!'); errors.push('init'); }
+        if (!texture) { this.displayErrorMessage('Error', 'Not valid texture at buildBlock()!'); errors.push('texture'); } // TODO: check if texture is a proper texture
+        if (this.gameState.assetStore.blocks.filter(b => b.id === id).length !== 0) { this.displayErrorMessage('Error', 'This block ID already exists!'); errors.push('blockid-match'); }
+
+        if (errors.length === 0) {
+            this.gameState.assetStore.blocks.push(
+                {
+                    id: id,
+                    texture: texture,
+                    position: position,
+                    physics: physics,
+                    animation: animation
+                }
+            );
+        }
     }
+
+    buildSprite() { /* TODO */ }
+
+    buildTexture() { }
 }

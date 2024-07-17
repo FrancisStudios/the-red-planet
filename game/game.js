@@ -8,11 +8,10 @@ const FSCE = FSCanvasEngine.getInstance();
 FSCE.setupScreen('screen', config.App.window.width, config.App.window.height);
 
 /* Initialize game state */
-FSCE.initGameState();
+FSCE.initGameState(32);
 
 /* Load Image (only after initGameState()) */
-//FSCE.loadImage('test.png'); /* TODO: not load image instead create a block or sprite */
 
 FSCE.gameLoop(() => {
-    console.log('frame')
+    //console.log('frame')
 }, true);

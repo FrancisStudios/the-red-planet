@@ -1,15 +1,6 @@
 export default class FSCanvasEngineRenderer {
     static renderNextFrame(renderData) {
         return new Promise((resolve, reject) => {
-
-            /* 
-             Mock frame render 
-             the main.js should be the facade, storing all the 
-             application state (like what to render each frame)
-             and here the heavy lifting [rendering logic] should
-             dwell.
-            */
-
             let _renderProcesses = [];
 
             if (renderData) {
@@ -53,9 +44,17 @@ export default class FSCanvasEngineRenderer {
                     canvas.stroke();
                 }
 
-                resolve()
+                canvas.fillStyle = 'red';
+                canvas.font = '16px Arial';
+                canvas.fillText(
+                    `${gameState.resolution.width}x${gameState.resolution.height} @ ${blockSize}x${blockSize}`,
+                    16,
+                    16
+                );
+                canvas.fillStyle = 'black';
+                resolve();
 
-            } else reject()
-        })
+            } else reject();
+        });
     }
 }

@@ -9,8 +9,7 @@ FSCE is written in **Javascript** and is running in **electron** allowing to cre
 Follow these steps to get FSCE running
 
 1) Download & Setup
-2) 
-
+2) Get Started with [JavaScript](./javascript%20API/javascript-api.md) or FSCE GUI _(coming soon)_
 
 
 ## Error messages
