@@ -11,14 +11,10 @@ FSCE.setupScreen('screen', config.App.window.width, config.App.window.height);
 FSCE.initGameState(32);
 
 /* Build a Texture then build a block */
-const testTexture = FSCE.buildTexture('32-test-texture.png', 'test-texture');
-
-FSCE.buildBlock('test-block', testTexture, { x: 10, y: 10 });
 FSCE.createLayer('test-layer');
-FSCE.insertToLayer(
-    FSCE.getBlock('test-block'),
-    'test-layer'
-);
+FSCE.buildTexture('32-test-texture.png', 'test-texture');
+FSCE.buildBlock('test-block', FSCE.getTexture('test-texture'), { x: 10, y: 10 });
+FSCE.insertToLayer(FSCE.getBlock('test-block'), 'test-layer');
 
 FSCE.gameLoop(() => {
     //console.log('frame')

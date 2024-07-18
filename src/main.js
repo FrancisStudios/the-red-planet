@@ -207,9 +207,9 @@ export default class FSCanvasEngine {
      * @param {string} id 
      * @returns {import('./types.ts').Block}
      */
-    getBlock(id){
-        if(this.gameState.assetStore.blocks.length > 0) {
-            return this.gameState.assetStore.blocks.filter(b=> b.id === id)[0] ?? [];
+    getBlock(id) {
+        if (this.gameState.assetStore.blocks.length > 0) {
+            return this.gameState.assetStore.blocks.filter(b => b.id === id)[0] ?? [];
         } else this.displayErrorMessage('Error', 'Block store is not ready!');
     }
 
@@ -258,6 +258,17 @@ export default class FSCanvasEngine {
 
             } else this.displayErrorMessage('Error', 'Texture with this identifier, already exists!');
         } else this.displayErrorMessage('Error', 'Game state is not initialized! Make sure that game state is set before building textures!');
+    }
+
+    /**
+     * Returns a texture from store
+     * @param {string} id 
+     * @returns {Texture}
+     */
+    getTexture(id) {
+        if (this.gameState.assetStore.textures) {
+            return this.gameState.assetStore.textures.filter(texture => texture.id === id)[0];
+        } else this.displayErrorMessage('Error', 'Texture store is not ready!');
     }
 
     /**
@@ -339,7 +350,7 @@ export default class FSCanvasEngine {
         } else this.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
     }
 
-    removeFromLayer(item, layerName){
+    removeFromLayer(item, layerName) {
 
     }
 }
