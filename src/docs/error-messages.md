@@ -20,3 +20,5 @@ This will help you decypher and fix all possible error messages.
 | Sprite store is not initialized! | You have to initialize game store before trying to remove a sprite from the sprite store! |
 | Gamestate is not initialized for layer operations! | You have to initialize game state before doing layer operations (create, remove, add to) | 
 | Layer name already exists! | Layer names have to be unique! |
+| Layers are not initialized or no layer present! | You have to initialize game state, and create a layer to be able to insert an Item (Sprite or Block) into a layer! |
+| Block store is not ready! | The game state is not yet initialized or block store does not contain any blocks. Create one using `FSCE.buildBlock()` or make sure your block is properly created and game state is available |

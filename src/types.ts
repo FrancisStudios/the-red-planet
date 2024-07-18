@@ -28,7 +28,7 @@ export type GameVariable = {
 export type Layer = {
     index: number, /* It's the layer height like z-index */
     name: string,
-    items: Array<Block | Sprite>
+    items: Array<Item>
 }
 
 export type Block = {
@@ -74,3 +74,5 @@ export type Animation = {
     id: string,
     frames: Array<Texture>
 }
+
+export type Item = Block | Sprite;

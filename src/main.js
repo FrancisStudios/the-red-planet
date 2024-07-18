@@ -202,6 +202,17 @@ export default class FSCanvasEngine {
         } else this.displayErrorMessage('Error', 'Block store is not initialized!');
     }
 
+    /**
+     * Returns a block
+     * @param {string} id 
+     * @returns {import('./types.ts').Block}
+     */
+    getBlock(id){
+        if(this.gameState.assetStore.blocks.length > 0) {
+            return this.gameState.assetStore.blocks.filter(b=> b.id === id)[0] ?? [];
+        } else this.displayErrorMessage('Error', 'Block store is not ready!');
+    }
+
     buildSprite() { /* TODO */ }
 
     /**
@@ -311,5 +322,24 @@ export default class FSCanvasEngine {
                 return this.gameState
             } else this.displayErrorMessage('Error', 'Gamestate is not initialized!');
         }
+    }
+
+    /**
+     * @typedef {import('./types.ts').Item} Item
+     * @param {Item} item 
+     * @param {string} layerName
+     */
+    insertToLayer(item, layerName) {
+        if (this.gameState.layers.length > 0) {
+            this.gameState.layers.forEach(layer => {
+                if (layer.name === layerName) {
+                    layer.items.push(item);
+                }
+            });
+        } else this.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
+    }
+
+    removeFromLayer(item, layerName){
+
     }
 }

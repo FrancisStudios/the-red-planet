@@ -13,12 +13,31 @@ export default class FSCanvasEngineRenderer {
                         }, 100);
                     })
                 }
-                _renderProcesses.push(testLoad())
+                _renderProcesses.push(testLoad());
+                _renderProcesses.push(this.renderLayers(renderData.gameState))
             } else resolve(false);
 
             Promise
                 .all(_renderProcesses)
                 .then((d) => { resolve(true) });
+        });
+    }
+
+    static renderLayers(gameState) {
+        return new Promise((resolve, reject) => {
+            const indexes = gameState.layers.map(layer => layer.index).sort();
+            const itemSize = gameState.itemSize;
+            for (let zindex of indexes) {
+                for (let item of gameState.layers[zindex].items) {
+                    gameState.canvas.drawImage(
+                        item.texture.image,
+                        (item.position.x * itemSize) - itemSize,
+                        (item.position.y * itemSize) - itemSize
+                    );
+                }
+            }
+
+            resolve();
         });
     }
 

@@ -14,7 +14,11 @@ FSCE.initGameState(32);
 const testTexture = FSCE.buildTexture('32-test-texture.png', 'test-texture');
 
 FSCE.buildBlock('test-block', testTexture, { x: 10, y: 10 });
-FSCE.createLayer('test');
+FSCE.createLayer('test-layer');
+FSCE.insertToLayer(
+    FSCE.getBlock('test-block'),
+    'test-layer'
+);
 
 FSCE.gameLoop(() => {
     //console.log('frame')
