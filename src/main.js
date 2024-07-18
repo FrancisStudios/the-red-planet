@@ -3,6 +3,7 @@
  * All application (and game) state is stored here and
  * processed in other classes and methods.
  */
+import EngineConfig from '../config/engine.config.json' with {type: 'json'};
 import FSCanvasEngineRenderer from "./renderer/renderer.js";
 export default class FSCanvasEngine {
     screen;
@@ -85,8 +86,9 @@ export default class FSCanvasEngine {
                 layers: [],
                 players: [],
                 assetStore: {
+                    textures: [],
                     blocks: [],
-                    sprites: [], /* TODO: figure out this */
+                    sprites: [],
                     animations: []
                 }
             }
@@ -159,7 +161,7 @@ export default class FSCanvasEngine {
     /**
      * Build a Block from a loaded image asset or multiple assets
      * @param {string} id - Unique name for your block which you will refer to at map building
-     * @param {MediaImage} texture - Static image or first frame of your animation
+     * @param {Texture} texture - Static image or first frame of your animation
      * @param {{ x: 0, y: 0 }} position - Position in grid coordinates
      * @param {Array<Behavior>} physics - (Optional) List of Behaviors - use behavior constructor to build one.
      * @param {{ isAnimated: false, animationFrames: [] }} animation - (Optional) All animation frames as images
@@ -189,7 +191,69 @@ export default class FSCanvasEngine {
         }
     }
 
+    /**
+     * Remove Block From Store
+     * @param {string} id 
+     */
+    removeBlock(id) {
+        if (this.gameState.assetStore.blocks) {
+            this.gameState.assetStore.blocks = this.gameState.assetStore.blocks.filter(block => block.id !== id);
+        } else this.displayErrorMessage('Error', 'Block store is not initialized!');
+    }
+
     buildSprite() { /* TODO */ }
 
-    buildTexture() { }
+    /**
+     * Remove Sprite From Store
+     * @param {string} id 
+     */
+    removeSprite(id) {
+        if (this.gameState.assetStore.sprites) {
+            this.gameState.assetStore.sprites = this.gameState.assetStore.sprites.filter(sprite => sprite.id !== id);
+        } else this.displayErrorMessage('Error', 'Sprite store is not initialized!');
+    }
+
+    /**
+     * Create Texture
+     * @param {string} url - Resource identifier (path to your image)
+     * @param {string} id - Unique ID for your texture
+     * @returns { Texture | false }
+     */
+    buildTexture(url, id) {
+        if (this.gameState) {
+            if (this.gameState.assetStore.textures.filter(t => t.id === id).length === 0) {
+                const MediaImage = new Image(this.gameState.itemSize, this.gameState.itemSize);
+                MediaImage.src = `${EngineConfig.paths.defaultImageLibrary}${url}`;
+                let ERRORS = []
+
+                MediaImage.onerror = () => {
+                    ERRORS.push('load-error');
+                    this.displayErrorMessage('Error', 'Could not load image texture!');
+                }
+
+                if (ERRORS.length === 0) {
+                    const Texture = {
+                        id: id,
+                        image: MediaImage
+                    }
+
+                    this.gameState.assetStore.textures.push(Texture);
+                    return Texture;
+                } else {
+                    return false;
+                }
+
+            } else this.displayErrorMessage('Error', 'Texture with this identifier, already exists!');
+        } else this.displayErrorMessage('Error', 'Game state is not initialized! Make sure that game state is set before building textures!');
+    }
+
+    /**
+     * Remove Texture From Store
+     * @param {string} id 
+     */
+    removeTexture(id) {
+        if (this.gameState.assetStore.textures) {
+            this.gameState.assetStore.textures = this.gameState.assetStore.textures.filter(texture => texture.id !== id);
+        } else this.displayErrorMessage('Error', 'Texture store is not initialized!');
+    }
 }

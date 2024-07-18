@@ -10,7 +10,9 @@ FSCE.setupScreen('screen', config.App.window.width, config.App.window.height);
 /* Initialize game state */
 FSCE.initGameState(32);
 
-/* Load Image (only after initGameState()) */
+/* Build a Texture then build a block */
+const testTexture = FSCE.buildTexture('32-test-texture.png', 'test-texture');
+FSCE.buildBlock('test-block', testTexture, { x: 10, y: 10 });
 
 FSCE.gameLoop(() => {
     //console.log('frame')

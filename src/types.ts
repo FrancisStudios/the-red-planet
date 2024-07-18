@@ -13,9 +13,10 @@ export type GameStateType = {
     layers: Array<Layer>,
     players: Array<Player>,
     assetStore: {
-        blocks: Array<string>, /* TODO: figure all of this out*/
+        textures: Array<Texture>
+        blocks: Array<Block>, /* TODO: figure all of this out*/
         sprites: Array<Sprite>,
-        animations: Array<string[]>
+        animations: Array<Animation>
     }
 }
 
@@ -27,17 +28,17 @@ type GameVariable = {
 type Layer = {
     index: number, /* It's the layer height like z-index */
     name: string,
-    sprites: Array<Sprite>
+    items: Array<Block | Sprite>
 }
 
 type Block = {
     id: string,
-    texture: MediaImage,
+    texture: Texture,
     position: Coordinates,
     physics: Array<Behavior>,
     animation: {
         isAnimated: boolean, /* If disabled defaults to texture */
-        animationFrames: Array<MediaImage>
+        animationFrames: Animation
     }
 }
 
@@ -62,4 +63,14 @@ type Behavior = {
     enabled: boolean,
     direction: 'x+' | 'x-' | 'y+' | 'y-',
     force: number;
+}
+
+type Texture = {
+    id: string,
+    image: MediaImage
+}
+
+type Animation = {
+    id: string,
+    frames: Array<Texture>
 }
