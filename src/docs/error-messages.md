@@ -18,3 +18,5 @@ This will help you decypher and fix all possible error messages.
 | Block store is not initialized! | You have to initialize game state before trying to remove a block from the block store `gameState.assetStore.blocks[].remove()` |
 | Texture store is not initialized! | You have to initialize game state before trying to remove a texture from the texture store `gameState.assetStore.textures[].remove()` |
 | Sprite store is not initialized! | You have to initialize game store before trying to remove a sprite from the sprite store! |
+| Gamestate is not initialized for layer operations! | You have to initialize game state before doing layer operations (create, remove, add to) | 
+| Layer name already exists! | Layer names have to be unique! |

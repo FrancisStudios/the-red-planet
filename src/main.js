@@ -82,7 +82,7 @@ export default class FSCanvasEngine {
                     max: maximumCounter
                 },
                 itemSize: itemSize,
-                variables: {},
+                variables: [],
                 layers: [],
                 players: [],
                 assetStore: {
@@ -160,6 +160,7 @@ export default class FSCanvasEngine {
 
     /**
      * Build a Block from a loaded image asset or multiple assets
+     * @typedef {import('./types.ts').Behavior} Behavior
      * @param {string} id - Unique name for your block which you will refer to at map building
      * @param {Texture} texture - Static image or first frame of your animation
      * @param {{ x: 0, y: 0 }} position - Position in grid coordinates
@@ -215,6 +216,7 @@ export default class FSCanvasEngine {
 
     /**
      * Create Texture
+     * @typedef {import('./types.ts').Texture} Texture
      * @param {string} url - Resource identifier (path to your image)
      * @param {string} id - Unique ID for your texture
      * @returns { Texture | false }
@@ -255,5 +257,59 @@ export default class FSCanvasEngine {
         if (this.gameState.assetStore.textures) {
             this.gameState.assetStore.textures = this.gameState.assetStore.textures.filter(texture => texture.id !== id);
         } else this.displayErrorMessage('Error', 'Texture store is not initialized!');
+    }
+
+    /**
+     * Create a layer
+     * @param {string} name - Unique layer name
+     * @param {number} index - [Optional] Layer Z-index (lower numbers in the back - higher numbers in the front)
+     * @returns {Layer | False}
+     */
+    createLayer(name, index = false) {
+        if (this.gameState.layers) {
+            let ERRORS = [];
+            if (this.gameState.layers.filter(layer => layer.name === name).length !== 0) { ERRORS.push('name conflict'); this.displayErrorMessage('Error', 'Layer name already exists!'); }
+            if (ERRORS.length === 0) {
+                const Layer = {
+                    index: index ? index : this.gameState.layers.length,
+                    name: name,
+                    items: []
+                }
+                this.gameState.layers.push(Layer)
+            } else return false;
+        } else this.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!')
+    }
+
+    /**
+     * Remove a layer by it's name
+     * @param {string} name 
+     */
+    removeLayer(name) {
+        if (this.gameState.layers) {
+            this.gameState.layers = this.gameState.layers.filter(layer => layer.name !== name);
+        } else this.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!');
+    }
+
+    /**
+     * Returns all layers
+     * @typedef {import('./types.ts').Layer} Layer
+     * @returns {Array<Layer>}
+     */
+    listLayer() {
+        if (this.gameState.layers) {
+            return this.gameState.layers
+        } else this.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!');
+    }
+
+    /**
+     * @typedef {import('./types.ts').GameStateType} GameStateType
+     * @returns {GameStateType}
+     */
+    getGameState() {
+        {
+            if (this.gameState) {
+                return this.gameState
+            } else this.displayErrorMessage('Error', 'Gamestate is not initialized!');
+        }
     }
 }

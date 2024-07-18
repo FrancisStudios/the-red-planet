@@ -20,18 +20,18 @@ export type GameStateType = {
     }
 }
 
-type GameVariable = {
+export type GameVariable = {
     name: string,
     value: string | number | null
 }
 
-type Layer = {
+export type Layer = {
     index: number, /* It's the layer height like z-index */
     name: string,
     items: Array<Block | Sprite>
 }
 
-type Block = {
+export type Block = {
     id: string,
     texture: Texture,
     position: Coordinates,
@@ -42,35 +42,35 @@ type Block = {
     }
 }
 
-type Sprite = {
+export type Sprite = {
     Blocks: Array<Block> /* Multiple Blocks can be in a sprite */
 }
 
-type Coordinates = {
+export type Coordinates = {
     x: number,
     y: number
 }
 
-type Player = {
+export type Player = {
     name: string /* Unique identifier */
     sprite: Sprite
     isControlEnabled: boolean, /* Enable / Disable Controls */
     layer: number /* z-index where player is on */
 }
 
-type Behavior = {
+export type Behavior = {
     type: 'force-field' | 'collision-box' | 'controller' | 'visibility',
     enabled: boolean,
     direction: 'x+' | 'x-' | 'y+' | 'y-',
     force: number;
 }
 
-type Texture = {
+export type Texture = {
     id: string,
     image: MediaImage
 }
 
-type Animation = {
+export type Animation = {
     id: string,
     frames: Array<Texture>
 }
