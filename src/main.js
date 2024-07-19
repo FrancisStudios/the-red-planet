@@ -5,6 +5,7 @@
  */
 import EngineConfig from '../config/engine.config.json' with {type: 'json'};
 import FSCanvasEngineRenderer from "./renderer/renderer.js";
+import FSCanvasEngineErrorLogger from './services/error-logger.js';
 export default class FSCanvasEngine {
     screen;
     cnv;
@@ -34,7 +35,7 @@ export default class FSCanvasEngine {
             this.resolution.width = width; this.resolution.height = height;
             this.screen = context; this.isScreenSetup = true;
             this.cnv = canvas;
-        } else this.displayErrorMessage('Error', 'The screen is already set up!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'The screen is already set up!');
     }
 
     get canvas() {
@@ -84,7 +85,7 @@ export default class FSCanvasEngine {
                 itemSize: itemSize,
                 variables: [],
                 layers: [],
-                players: [],
+                actions: [],
                 assetStore: {
                     textures: [],
                     blocks: [],
@@ -92,46 +93,7 @@ export default class FSCanvasEngine {
                     animations: []
                 }
             }
-        } else this.displayErrorMessage('Error', 'Game state is already initialized!');
-    }
-
-    /**
-     * Display an Error Message
-     * @param {string} title - Usually Error
-     * @param {string} text  - Description of issue
-     */
-    displayErrorMessage(title, text) {
-        const id = this.generateId(64);
-
-        document
-            .getElementById('alerts-wrapper')
-            .insertAdjacentHTML('beforeend', `
-                <div class="alert-box error" id="${id}">
-                <h2 class="alert-title">
-                    ${title} 
-                    <input type="button" class="close-error" value="x" id="${id}-button"/>
-                </h2>
-                <p class="alert-text">
-                   ${text}
-                </p>
-                </div>
-            `);
-
-        /* Remove Error From SCR */
-        document.addEventListener('DOMContentLoaded', () => {
-            document
-                .querySelectorAll('.close-error')
-                .forEach(el => {
-                    el.addEventListener('click',
-                        (e) => {
-                            if (document.getElementById(e.target.id.split('-')[0]) && e.target.id.split('-')[1] === 'button') {
-                                document.getElementById(e.target.id.split('-')[0]).remove();
-                            }
-                        }
-                    );
-                })
-
-        });
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Game state is already initialized!');
     }
 
     enableDebugMode() {
@@ -175,9 +137,9 @@ export default class FSCanvasEngine {
         animation = { isAnimated: false, animationFrames: [] }
     ) {
         let errors = [];
-        if (!this.gameState) { this.displayErrorMessage('Error', 'Game state has to be initialized before building a block!'); errors.push('init'); }
-        if (!texture) { this.displayErrorMessage('Error', 'Not valid texture at buildBlock()!'); errors.push('texture'); } // TODO: check if texture is a proper texture
-        if (this.gameState.assetStore.blocks.filter(b => b.id === id).length !== 0) { this.displayErrorMessage('Error', 'This block ID already exists!'); errors.push('blockid-match'); }
+        if (!this.gameState) { FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Game state has to be initialized before building a block!'); errors.push('init'); }
+        if (!texture) { FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Not valid texture at buildBlock()!'); errors.push('texture'); } // TODO: check if texture is a proper texture
+        if (this.gameState?.assetStore?.blocks?.filter(b => b.id === id).length !== 0) { FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'This block ID already exists!'); errors.push('blockid-match'); }
 
         if (errors.length === 0) {
             this.gameState.assetStore.blocks.push(
@@ -197,9 +159,9 @@ export default class FSCanvasEngine {
      * @param {string} id 
      */
     removeBlock(id) {
-        if (this.gameState.assetStore.blocks) {
+        if (this.gameState?.assetStore?.blocks) {
             this.gameState.assetStore.blocks = this.gameState.assetStore.blocks.filter(block => block.id !== id);
-        } else this.displayErrorMessage('Error', 'Block store is not initialized!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Block store is not initialized!');
     }
 
     /**
@@ -208,9 +170,9 @@ export default class FSCanvasEngine {
      * @returns {import('./types.ts').Block}
      */
     getBlock(id) {
-        if (this.gameState.assetStore.blocks.length > 0) {
+        if (this.gameState?.assetStore?.blocks?.length > 0) {
             return this.gameState.assetStore.blocks.filter(b => b.id === id)[0] ?? [];
-        } else this.displayErrorMessage('Error', 'Block store is not ready!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Block store is not ready!');
     }
 
     buildSprite() { /* TODO */ }
@@ -220,9 +182,9 @@ export default class FSCanvasEngine {
      * @param {string} id 
      */
     removeSprite(id) {
-        if (this.gameState.assetStore.sprites) {
+        if (this.gameState?.assetStore?.sprites) {
             this.gameState.assetStore.sprites = this.gameState.assetStore.sprites.filter(sprite => sprite.id !== id);
-        } else this.displayErrorMessage('Error', 'Sprite store is not initialized!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Sprite store is not initialized!');
     }
 
     /**
@@ -234,14 +196,14 @@ export default class FSCanvasEngine {
      */
     buildTexture(url, id) {
         if (this.gameState) {
-            if (this.gameState.assetStore.textures.filter(t => t.id === id).length === 0) {
+            if (this.gameState?.assetStore?.textures?.filter(t => t.id === id).length === 0) {
                 const MediaImage = new Image(this.gameState.itemSize, this.gameState.itemSize);
                 MediaImage.src = `${EngineConfig.paths.defaultImageLibrary}${url}`;
                 let ERRORS = []
 
                 MediaImage.onerror = () => {
                     ERRORS.push('load-error');
-                    this.displayErrorMessage('Error', 'Could not load image texture!');
+                    FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Could not load image texture!');
                 }
 
                 if (ERRORS.length === 0) {
@@ -256,8 +218,8 @@ export default class FSCanvasEngine {
                     return false;
                 }
 
-            } else this.displayErrorMessage('Error', 'Texture with this identifier, already exists!');
-        } else this.displayErrorMessage('Error', 'Game state is not initialized! Make sure that game state is set before building textures!');
+            } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Texture with this identifier, already exists!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Game state is not initialized! Make sure that game state is set before building textures!');
     }
 
     /**
@@ -266,9 +228,9 @@ export default class FSCanvasEngine {
      * @returns {Texture}
      */
     getTexture(id) {
-        if (this.gameState.assetStore.textures) {
+        if (this.gameState?.assetStore?.textures) {
             return this.gameState.assetStore.textures.filter(texture => texture.id === id)[0];
-        } else this.displayErrorMessage('Error', 'Texture store is not ready!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Texture store is not ready!');
     }
 
     /**
@@ -276,9 +238,9 @@ export default class FSCanvasEngine {
      * @param {string} id 
      */
     removeTexture(id) {
-        if (this.gameState.assetStore.textures) {
+        if (this.gameState?.assetStore?.textures) {
             this.gameState.assetStore.textures = this.gameState.assetStore.textures.filter(texture => texture.id !== id);
-        } else this.displayErrorMessage('Error', 'Texture store is not initialized!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Texture store is not initialized!');
     }
 
     /**
@@ -288,9 +250,9 @@ export default class FSCanvasEngine {
      * @returns {Layer | False}
      */
     createLayer(name, index = false) {
-        if (this.gameState.layers) {
+        if (this.gameState?.layers) {
             let ERRORS = [];
-            if (this.gameState.layers.filter(layer => layer.name === name).length !== 0) { ERRORS.push('name conflict'); this.displayErrorMessage('Error', 'Layer name already exists!'); }
+            if (this.gameState.layers.filter(layer => layer.name === name).length !== 0) { ERRORS.push('name conflict'); FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Layer name already exists!'); }
             if (ERRORS.length === 0) {
                 const Layer = {
                     index: index ? index : this.gameState.layers.length,
@@ -299,7 +261,7 @@ export default class FSCanvasEngine {
                 }
                 this.gameState.layers.push(Layer)
             } else return false;
-        } else this.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!')
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!')
     }
 
     /**
@@ -307,9 +269,9 @@ export default class FSCanvasEngine {
      * @param {string} name 
      */
     removeLayer(name) {
-        if (this.gameState.layers) {
+        if (this.gameState?.layers) {
             this.gameState.layers = this.gameState.layers.filter(layer => layer.name !== name);
-        } else this.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!');
     }
 
     /**
@@ -318,9 +280,9 @@ export default class FSCanvasEngine {
      * @returns {Array<Layer>}
      */
     listLayer() {
-        if (this.gameState.layers) {
+        if (this.gameState?.layers) {
             return this.gameState.layers
-        } else this.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Gamestate is not initialized for layer operations!');
     }
 
     /**
@@ -331,7 +293,7 @@ export default class FSCanvasEngine {
         {
             if (this.gameState) {
                 return this.gameState
-            } else this.displayErrorMessage('Error', 'Gamestate is not initialized!');
+            } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Gamestate is not initialized!');
         }
     }
 
@@ -341,13 +303,13 @@ export default class FSCanvasEngine {
      * @param {string} layerName
      */
     insertToLayer(item, layerName) {
-        if (this.gameState.layers.length > 0) {
+        if (this.gameState?.layers?.length > 0) {
             this.gameState.layers.forEach(layer => {
                 if (layer.name === layerName) {
                     layer.items.push(item);
                 }
             });
-        } else this.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
     }
 
     /**
@@ -358,10 +320,10 @@ export default class FSCanvasEngine {
     removeFromLayer(item, layerName) {
         if (this.gameState.layers.length > 0) {
             
-        } else this.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
     }
 
     attachGameController(item){
-        
+
     }
 }

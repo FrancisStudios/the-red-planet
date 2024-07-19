@@ -11,6 +11,7 @@ export type GameStateType = {
     BlockSize: 8 | 16 | 32 | 64 | 128 | 256, /* Blocks should be 8x8 or 16x16... */
     variables: Array<GameVariable>,
     layers: Array<Layer>,
+    actions: Array<Action>, /* Keypresses are put into actions automatically and queued and executed during render */
     assetStore: {
         textures: Array<Texture>
         blocks: Array<Block>, /* TODO: figure all of this out*/
@@ -71,3 +72,9 @@ export type Animation = {
 }
 
 export type Item = Block | Sprite;
+
+export type Action = {
+    type: 'keypress' | 'variable-change',
+    target?: string /* variable name or additional info */,
+    value: string
+}
