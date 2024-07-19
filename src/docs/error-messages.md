@@ -23,3 +23,4 @@ This will help you decypher and fix all possible error messages.
 | Layers are not initialized or no layer present! | You have to initialize game state, and create a layer to be able to insert an Item (Sprite or Block) into a layer! |
 | Block store is not ready! | The game state is not yet initialized or block store does not contain any blocks. Create one using `FSCE.buildBlock()` or make sure your block is properly created and game state is available |
 | Actions is not initialized to attach controllers! | You have to initialize game state to have `gameState.actions[]`. It seems like initialization wasn't successful. After successful initialization you can add controllers to **items** follow [javascript-api.md](./javascript%20API/javascript-api.md) for initialization steps |
+| Incorrect item given! | The item is not a valid FSCE.Item! Some of it's properties are not detected. Make sure you get the correct Item (block | sprite). |

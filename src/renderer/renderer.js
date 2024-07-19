@@ -32,19 +32,25 @@ export default class FSCanvasEngineRenderer {
                     if ('blocks' in item) {
                         /* If it's a sprite then loop through blocks */
                         for (let buildingBlock of item.blocks) {
-                            gameState.canvas.drawImage(
-                                buildingBlock.texture.image,
-                                (buildingBlock.position.x * itemSize) - itemSize,
-                                (buildingBlock.position.y * itemSize) - itemSize
-                            );
+                            const isVisible = buildingBlock?.physics?.filter(behavior => behavior.type === 'visibility')[0]?.enabled;
+                            if (isVisible) {
+                                gameState.canvas.drawImage(
+                                    buildingBlock.texture.image,
+                                    (buildingBlock.position.x * itemSize) - itemSize,
+                                    (buildingBlock.position.y * itemSize) - itemSize
+                                );
+                            }
                         }
                     } else {
                         /* If it's a block */
-                        gameState.canvas.drawImage(
-                            item.texture.image,
-                            (item.position.x * itemSize) - itemSize,
-                            (item.position.y * itemSize) - itemSize
-                        );
+                        const isVisible = item?.physics?.filter(behavior => behavior.type === 'visibility')[0]?.enabled;
+                        if (isVisible) {
+                            gameState.canvas.drawImage(
+                                item.texture.image,
+                                (item.position.x * itemSize) - itemSize,
+                                (item.position.y * itemSize) - itemSize
+                            );
+                        }
                     }
 
 

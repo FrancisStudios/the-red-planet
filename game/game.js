@@ -23,7 +23,7 @@ FSCE.buildBlock('test-block', FSCE.getTexture('test-texture'), { x: 10, y: 10 })
 FSCE.insertToLayer(FSCE.getBlock('test-block'), 'test-layer');
 
 /* Attach game controllers */
-FSCE.attachGameController();
+FSCE.attachGameController(FSCE.getBlock('test-block'));
 
 /* Rendering */
 FSCE.gameLoop(() => {

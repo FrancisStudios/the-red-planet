@@ -94,6 +94,9 @@ export default class FSCanvasEngine {
                     animations: []
                 }
             }
+
+            FSCanvasEngineControllers.attachGameControllers(this.gameState);
+
         } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Game state is already initialized!');
     }
 
@@ -308,7 +311,19 @@ export default class FSCanvasEngine {
         } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
     }
 
-    attachGameController(item = 'nl') {
-        FSCanvasEngineControllers.attachGameControllers(this.gameState);
+    /**
+     * Attaches Game Controller to Block 
+     * @param {Item} item 
+     * @param {number} sensitivity 
+     */
+    attachGameController(item, sensitivity = 1) {
+        if (item.physics && item.id) {
+            const newBehavior = {
+                type: 'game-controller',
+                enabled: true,
+                force: sensitivity
+            }
+            item.physics.push(newBehavior);
+        } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Incorrect item given!');
     }
 }

@@ -55,10 +55,10 @@ export type Coordinates = {
 }
 
 export type Behavior = {
-    type: 'force-field' | 'collision-box' | 'controller' | 'visibility',
+    type: 'force-field' | 'collision-box' | 'controller' | 'visibility' | 'game-controller',
     enabled: boolean,
-    direction: 'x+' | 'x-' | 'y+' | 'y-',
-    force: number;
+    direction?: 'x+' | 'x-' | 'y+' | 'y-', /* Not for game controller */
+    force: number
 }
 
 export type Texture = {
