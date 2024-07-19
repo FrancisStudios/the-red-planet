@@ -43,7 +43,7 @@ export type Block = {
 }
 
 export type Sprite = {
-    Blocks: Array<Block> /* Multiple Blocks can be in a sprite */
+    blocks: Array<Block> /* Multiple Blocks can be in a sprite */
 }
 
 export type Coordinates = {

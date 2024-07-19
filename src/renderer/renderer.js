@@ -29,11 +29,25 @@ export default class FSCanvasEngineRenderer {
             const itemSize = gameState.itemSize;
             for (let zindex of indexes) {
                 for (let item of gameState.layers[zindex].items) {
-                    gameState.canvas.drawImage(
-                        item.texture.image,
-                        (item.position.x * itemSize) - itemSize,
-                        (item.position.y * itemSize) - itemSize
-                    );
+                    if ('blocks' in item) {
+                        /* If it's a sprite then loop through blocks */
+                        for (let buildingBlock of item.blocks) {
+                            gameState.canvas.drawImage(
+                                buildingBlock.texture.image,
+                                (buildingBlock.position.x * itemSize) - itemSize,
+                                (buildingBlock.position.y * itemSize) - itemSize
+                            );
+                        }
+                    } else {
+                        /* If it's a block */
+                        gameState.canvas.drawImage(
+                            item.texture.image,
+                            (item.position.x * itemSize) - itemSize,
+                            (item.position.y * itemSize) - itemSize
+                        );
+                    }
+
+
                 }
             }
 
