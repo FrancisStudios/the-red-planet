@@ -5,6 +5,7 @@
  */
 import EngineConfig from '../config/engine.config.json' with {type: 'json'};
 import FSCanvasEngineRenderer from "./renderer/renderer.js";
+import FSCanvasEngineControllers from './services/controllers.js';
 import FSCanvasEngineErrorLogger from './services/error-logger.js';
 export default class FSCanvasEngine {
     screen;
@@ -303,11 +304,11 @@ export default class FSCanvasEngine {
      */
     removeFromLayer(item, layerName) {
         if (this.gameState.layers.length > 0) {
-            
+
         } else FSCanvasEngineErrorLogger.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
     }
 
-    attachGameController(item){
-
+    attachGameController(item = 'nl') {
+        FSCanvasEngineControllers.attachGameControllers(this.gameState);
     }
 }

@@ -22,7 +22,11 @@ FSCE.buildBlock('test-block', FSCE.getTexture('test-texture'), { x: 10, y: 10 })
 /* Getting block and moving on to the test-layer */
 FSCE.insertToLayer(FSCE.getBlock('test-block'), 'test-layer');
 
+/* Attach game controllers */
+FSCE.attachGameController();
+
 /* Rendering */
 FSCE.gameLoop(() => {
     // This gets called after each rendered frame
+    //console.log(FSCE.getGameState());
 }, true);

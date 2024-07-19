@@ -9,7 +9,7 @@ This will help you decypher and fix all possible error messages.
 | Game state is already initialized! | You have already called `FSCanvasEngine.initGameState()` game state can only be initialized once. Please make sure that this method is referenced only once. |
 | Game state is not yet initialized when trying to build a block. | You have to instantiate `FSCanvasEngine` (`FSCanvasEngine.getInstance()`) and call `FSCanvasEngine.initGameState()` before trying to build a block | 
 | The screen is already set up! | The screen is already initialized once, it can not be initialized twice.|
-| Game state has to be initialized before building a block! | The game state is not initialized yet. Please follow the initialization steps [javascript-api](./javascript%20API/javascript-api.md)|
+| Game state has to be initialized before building a block! | The game state is not initialized yet. Please follow the initialization steps [javascript-api.md](./javascript%20API/javascript-api.md)|
 | Not valid texture at buildBlock() | Texture must be a FSCE Texture - use texture builder to convert your image or tilemap to FSCE Textures. Consult [all-methods.md](./javascript%20API/all-methods.md) for texture builder and converter methods.|
 | This block ID already exists! | The block ID is already occupied in `gameState.assetStore.blocks[]` please remove or try with a different name! **IMPORTANT: block names (IDs) meant to be unique** |
 | Game state is not initialized! Make sure that game state is set before building textures! | You tried to build a texture before game state is initialized |
@@ -22,3 +22,4 @@ This will help you decypher and fix all possible error messages.
 | Layer name already exists! | Layer names have to be unique! |
 | Layers are not initialized or no layer present! | You have to initialize game state, and create a layer to be able to insert an Item (Sprite or Block) into a layer! |
 | Block store is not ready! | The game state is not yet initialized or block store does not contain any blocks. Create one using `FSCE.buildBlock()` or make sure your block is properly created and game state is available |
+| Actions is not initialized to attach controllers! | You have to initialize game state to have `gameState.actions[]`. It seems like initialization wasn't successful. After successful initialization you can add controllers to **items** follow [javascript-api.md](./javascript%20API/javascript-api.md) for initialization steps |
