@@ -11,7 +11,6 @@ export type GameStateType = {
     BlockSize: 8 | 16 | 32 | 64 | 128 | 256, /* Blocks should be 8x8 or 16x16... */
     variables: Array<GameVariable>,
     layers: Array<Layer>,
-    players: Array<Player>,
     assetStore: {
         textures: Array<Texture>
         blocks: Array<Block>, /* TODO: figure all of this out*/
@@ -43,19 +42,15 @@ export type Block = {
 }
 
 export type Sprite = {
+    id: string,
+    physics: Array<Behavior>,
+    position: Coordinates, /* TODO: IDEA: what if we handle only one position */
     blocks: Array<Block> /* Multiple Blocks can be in a sprite */
 }
 
 export type Coordinates = {
     x: number,
     y: number
-}
-
-export type Player = {
-    name: string /* Unique identifier */
-    sprite: Sprite
-    isControlEnabled: boolean, /* Enable / Disable Controls */
-    layer: number /* z-index where player is on */
 }
 
 export type Behavior = {

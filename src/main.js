@@ -350,7 +350,18 @@ export default class FSCanvasEngine {
         } else this.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
     }
 
+    /**
+     * Remove item from layer
+     * @param {Item} item 
+     * @param {string} layerName 
+     */
     removeFromLayer(item, layerName) {
+        if (this.gameState.layers.length > 0) {
+            
+        } else this.displayErrorMessage('Error', 'Layers are not initialized or no layer present!');
+    }
 
+    attachGameController(item){
+        
     }
 }
