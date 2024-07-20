@@ -37,7 +37,9 @@ export default class FSCanvasEngineRenderer {
                                 gameState.canvas.drawImage(
                                     buildingBlock.texture.image,
                                     (buildingBlock.position.x * itemSize) - itemSize,
-                                    (buildingBlock.position.y * itemSize) - itemSize
+                                    (buildingBlock.position.y * itemSize) - itemSize,
+                                    itemSize,
+                                    itemSize
                                 );
                             }
                         }
@@ -48,7 +50,9 @@ export default class FSCanvasEngineRenderer {
                             gameState.canvas.drawImage(
                                 item.texture.image,
                                 (item.position.x * itemSize) - itemSize,
-                                (item.position.y * itemSize) - itemSize
+                                (item.position.y * itemSize) - itemSize,
+                                itemSize,
+                                itemSize
                             );
                         }
                     }

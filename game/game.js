@@ -14,6 +14,7 @@ FSCE.initGameState(32);
 FSCE.createLayer('test-layer');
 
 /* Creating a texture = uploading /game/assets/img/32-test-... .png */
+//FSCE.buildTexture('32-test-texture.png', 'test-texture');
 FSCE.buildTexture('32-test-texture.png', 'test-texture');
 
 /* Creating a block on 10:10 coordinates */
